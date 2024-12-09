@@ -17,15 +17,15 @@ def info():
 def hello(name):
     return 'Hallo {}!'.format(name)
 
-@app.route('/lampe1/ein')
-def lampe1_ein():
-    p.digital_write(0,1)
-    return 'Lampe 1 ist AN.'
-
-@app.route('/lampe1/aus')
-def lampe1_aus():
-    p.digital_write(0,0)
-    return 'Lampe 1 ist AUS.'
+@app.route('/wohnzimmer/lampe/<int:ausgang/<zustand>')
+def lampen_steuerung(ausgang,zustand):
+    if zustand == "ein":
+        p.digital_write(ausgang,1)
+        return 'Lampe {} ist AN.'.format(ausgang+2)
+    else:
+        p.digital_write(ausgang,0)
+        return 'Lampe {} ist AUS.'.format(ausgang+1)
+    
 
 @app.route('/eingang/<int:eingang>')
 def eingang_auslesen(eingang):
