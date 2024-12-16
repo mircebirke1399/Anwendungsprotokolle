@@ -15,7 +15,7 @@ app = Flask(__name__)
 
 # definiere Route für Hauptseite
 @app.route('/')
-def index(in1,in2,in3,in4):
+def index():
     in1=p.digital_read(0)
     in2=p.digital_read(1)
     in3=p.digital_read(2)
