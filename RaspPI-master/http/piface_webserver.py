@@ -8,7 +8,7 @@
 from flask import Flask, render_template, request
 import pifacedigitalio as p
 
-
+p.init(hardware_addr=0)
 # initialisiere Flask-Server
 app = Flask(__name__)
 
