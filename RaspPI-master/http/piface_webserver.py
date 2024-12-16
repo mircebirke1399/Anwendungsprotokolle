@@ -5,7 +5,7 @@
 # oder
 #     pip3 install flask
 
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, redirect
 import pifacedigitalio as p
 
 p.init()
@@ -51,7 +51,7 @@ def formular():
         zustand = int(zustand)
     
     p.digital_write(ausgang,zustand)
-    
+    return redirect('/')
 
 
 if __name__ == '__main__':
