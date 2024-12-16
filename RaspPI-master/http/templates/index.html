@@ -74,19 +74,19 @@
                         </tr>
                         <tr>
                             <td>1</td>
-                            <td>An</td>
+                            <td>{{in1}}</td>
                         </tr>
                         <tr>
                             <td>2</td>
-                            <td>Aus</td>
+                            <td>{{in2}}</td>
                         </tr>
                         <tr>
                             <td>3</td>
-                            <td>An</td>
+                            <td>{{in3}}</td>
                         </tr>
                         <tr>
                             <td>4</td>
-                            <td>Aus</td>
+                            <td>{{in4}}</td>
                         </tr>
                         <tr id="table_end">
                             <th id="table_end"></th>
@@ -101,12 +101,12 @@
                     Ausgänge
                 </h2>
                 <div>
-                    <form>
-                        Ausgang: <input type="number" min="0" max="7" value="0">
+                    <form action="/formular" method="post">
+                        Ausgang: <input type="number" name="Ausgang" min="0" max="7" value="{ausgang}" required>
                         <br>
-                        <input type="radio"id="Ein" name="Zustand" value="1">
+                        <input type="radio"id="Ein" name="Zustand" value="{checked_ein}">
                         <label for="html">Ein</label>
-                        <input type="radio"id="Aus" name="Zustand" value="0">
+                        <input type="radio"id="Aus" name="Zustand" value="{checked_aus}" required>
                         <label for="html">Aus</label>
                         <br>
                         <input type="submit" value="Ausgang ändern">
