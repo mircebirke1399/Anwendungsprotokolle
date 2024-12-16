@@ -12,7 +12,7 @@ p.init()
 # initialisiere Flask-Server
 app = Flask(__name__)
 
-in1=[]
+in1=[0,0,0,0]
 # definiere Route für Hauptseite
 @app.route('/')
 def index():
