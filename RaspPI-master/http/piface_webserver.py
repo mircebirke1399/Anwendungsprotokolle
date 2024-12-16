@@ -12,33 +12,24 @@ p.init()
 # initialisiere Flask-Server
 app = Flask(__name__)
 
-
+in1=[]
 # definiere Route für Hauptseite
 @app.route('/')
 def index():
-    in1=p.digital_read(0)
-    if in1:
-        in1="Ein"
-    else:
-        in1="Aus"
-    in2=p.digital_read(1)
-    if in2:
-        in2="Ein"
-    else:
-        in2="Aus"
-    in3=p.digital_read(2)
-    if in3:
-        in3="Ein"
-    else:
-        in3="Aus"
-    in4=p.digital_read(3)
-    if in4:
-        in4="Ein"
-    else:
-        in4="Aus"
+    i=0
+    for i in range(3):
+        in1[i]=p.digital_read(i)
+        if in1[i]==1:
+            in1[i]='Ein'
+        elif in1[i]==0:
+            in1[i]='Aus'
+    
+    
     
       
-    return render_template('index.html',in1=in1,in2=in2,in3=in3,in4=in4)
+    return render_template('index.html',in1=in1)
+
+listzustand=[]
 
 @app.route('/formular', methods=['POST'])
 def formular():
@@ -49,7 +40,7 @@ def formular():
         ausgang = int(ausgang)
     if zustand:
         zustand = int(zustand)
-    
+    listzustand[ausgang]=zustand
     p.digital_write(ausgang,zustand)
     return redirect('/')
 
