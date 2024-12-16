@@ -49,11 +49,8 @@ def formular():
         ausgang = int(ausgang)
     if zustand:
         zustand = int(zustand)
-        
-    if request.form.get('Zustand') == '1': 
-        p.digital_write(ausgang,zustand)
-    elif request.form.get('zustand') == '0':
-        p.digital_write(ausgang,zustand)
+    
+    p.digital_write(ausgang,zustand)
     
 
 
