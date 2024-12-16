@@ -1,5 +1,5 @@
 import pifacedigitalio as p
-from flask import Flask
+from flask import Flask, render_template
 
 
 # initialisiere PiFace
@@ -21,7 +21,7 @@ def hello(name):
 def lampen_steuerung(ausgang,zustand):
     if zustand == "ein":
         p.digital_write(ausgang,1)
-        return 'Lampe {} in WOhnzimmer ist AN.'.format(ausgang+1)
+        return 'Lampe {} in Wohnzimmer ist AN.'.format(ausgang+1)
     elif zustand == "aus":
         p.digital_write(ausgang,0)
         return 'Lampe {} in Wohnzimmer ist AUS.'.format(ausgang+1)
