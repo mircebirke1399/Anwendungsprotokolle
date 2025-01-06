@@ -53,7 +53,7 @@ def lauflicht_steuerung():
         while True:
             # schiebe Ausgabebyte um eine Stelle nach links
             if aktuelle_Richtung == 0:
-                if aktuelle_Ausgabe >= (MAX_VALUE >> 1):
+                if aktuelle_Ausgabe >= MAX_VALUE:
                     aktuelle_Richtung = 1
                 else:
                     aktuelle_Ausgabe = aktuelle_Ausgabe << 1
