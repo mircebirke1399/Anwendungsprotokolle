@@ -1,4 +1,19 @@
 #! /usr/bin/env python3
+# -*- coding: utf-8 -*-
+# piface_lauflicht_vorlage.py
+#---------------------------------------------------
+# Steuert ein Lauflicht auf dem PiFace
+# über eine Web-Oberfläche
+#---------------------------------------------------
+# Autor: Walter Rothlin
+# Datum: 14.2.2021
+#---------------------------------------------------
+# Anleitung:
+# - Skript auf dem Raspberry Pi speichern
+# - Skript ausführen
+# - In Web-Browser die Seite http://<IP-Adresse-des-Raspberry>:5000/ aufrufen
+# - Geschwindigkeit des Lauflichts einstellen
+#---------------------------------------------------
 
 # Notwendige Bibliothek installieren:
 #     sudo apt install python3-flask
@@ -48,6 +63,7 @@ def lauflicht_steuerung():
     global aktuelle_geschwindigkeit
     aktuelle_Ausgabe = 0
     aktuelle_Richtung = 0
+    
     while True:
         # TODO: Schreibe aktuellen Wert auf Ausgang
         if aktuelle_Richtung==0:

@@ -42,21 +42,33 @@ class MyServerProtocol(WebSocketServerProtocol):
         if self in self.verbindungen:
             self.verbindungen.remove(self)
 
+MAX_VALUE = 128
+INIT_VALUE = 1
 
 def lauflicht_steuerung():
     global aktuelle_geschwindigkeit
-    aktuelle_Ausgabe = 0x01
-    while True:
-        # schiebe Ausgabebyte um eine Stelle nach links
-        if aktuelle_Ausgabe >= 128:
-            aktuelle_Ausgabe = 0x01
-        else:
-            aktuelle_Ausgabe = aktuelle_Ausgabe << 1
-        # schreibe Ausgabebyte auf den Ausgang
-        pfd.output_port.value = aktuelle_Ausgabe
-        print('laufe... {}'.format(aktuelle_Ausgabe))
-        time.sleep(aktuelle_geschwindigkeit / 100.)
-
+    aktuelle_Ausgabe = INIT_VALUE
+    aktuelle_Richtung = 0
+    try:
+        while True:
+            # schiebe Ausgabebyte um eine Stelle nach links
+            if aktuelle_Richtung==0:
+                if aktuelle_Ausgabe >= MAX_VALUE:
+                    aktuelle_Richtung = 1
+                else:
+                    aktuelle_Ausgabe = aktuelle_Ausgabe << 1
+            else:
+                if aktuelle_Ausgabe <= INIT_VALUE:
+                    aktuelle_Richtung = 0
+                else:
+                    aktuelle_Ausgabe = aktuelle_Ausgabe >> 1
+            # schreibe Ausgabebyte auf den Ausgang
+            pfd.output_port.value = aktuelle_Ausgabe
+            print('laufe... {}'.format(aktuelle_Ausgabe))
+            time.sleep(aktuelle_geschwindigkeit / 100.)
+    except Exception as e:
+        print('Fehler: {}'.format(e))
+        pfd.output_port.value = 0
 
 def start_server(host='127.0.0.1', port=9000):
     address = 'ws://' + host + ':' + str(port)
