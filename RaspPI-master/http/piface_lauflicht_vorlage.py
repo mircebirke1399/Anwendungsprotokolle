@@ -54,7 +54,7 @@ def lauflicht_steuerung():
             if aktuelle_Ausgabe==0:
                 p.digital_write(aktuelle_Ausgabe,1)
                 aktuelle_Ausgabe+=1
-            elif aktuelle_Ausgabe > 0 & aktuelle_Ausgabe <7:
+            elif aktuelle_Ausgabe > 0 and aktuelle_Ausgabe <7:
                 p.digital_write(aktuelle_Ausgabe-1,0)
                 p.digital_write(aktuelle_Ausgabe,1)
                 aktuelle_Ausgabe+=1
@@ -67,7 +67,7 @@ def lauflicht_steuerung():
             if aktuelle_Ausgabe==7:
                 p.digital_write(aktuelle_Ausgabe,1)
                 aktuelle_Ausgabe_=1
-            elif aktuelle_Ausgabe > 0 & aktuelle_Ausgabe <7:
+            elif aktuelle_Ausgabe > 0 and aktuelle_Ausgabe <7:
                 p.digital_write(aktuelle_Ausgabe+1,0)
                 p.digital_write(aktuelle_Ausgabe,1)
                 aktuelle_Ausgabe-=1
