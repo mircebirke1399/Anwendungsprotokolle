@@ -27,7 +27,7 @@ formular = """
            <body>
            <h1>Lauflicht mit dem PiFace</h1>
            <form action="/lauflicht" method="POST">
-             <p><input type="number" name="geschwindigkeit" min="10" max="1000" value="{geschwindigkeit}" /> Geschwindigkeit </p>
+             <p><input type="number" name="geschwindigkeit" min="10" max="1000" value="{geschwindigkeit}" /> Geschwindigkeit [s] </p>
              <p><input type="submit" value="Absenden" /></p>
            </form>
            </body>
