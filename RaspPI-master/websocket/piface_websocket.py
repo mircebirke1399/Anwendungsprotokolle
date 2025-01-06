@@ -55,6 +55,7 @@ def lauflicht_steuerung():
             if aktuelle_Richtung == 0:
                 if aktuelle_Ausgabe >= MAX_VALUE:
                     aktuelle_Richtung = 1
+                else:
                     aktuelle_Ausgabe = aktuelle_Ausgabe << 1
             else:
                 if aktuelle_Ausgabe <= INIT_VALUE:
