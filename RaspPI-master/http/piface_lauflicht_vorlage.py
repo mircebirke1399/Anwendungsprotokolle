@@ -75,7 +75,7 @@ def lauflicht_steuerung():
                 p.digital_write(aktuelle_Ausgabe+1,0)
                 p.digital_write(aktuelle_Ausgabe,1)
                 aktuelle_Ausgabe+=1
-                aktuelle_Richtung=1
+                aktuelle_Richtung=0
         print('laufe mit Geschwindigkeit {}'.format(aktuelle_geschwindigkeit))
         time.sleep(aktuelle_geschwindigkeit / 100.)
 
