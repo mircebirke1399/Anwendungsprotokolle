@@ -60,7 +60,7 @@ def lauflicht_steuerung():
                 aktuelle_Ausgabe+=1
             elif aktuelle_Ausgabe ==7:
                 p.digital_write(aktuelle_Ausgabe,1)
-                p.digital_write(aktuelle_Ausgabe-1,)
+                p.digital_write(aktuelle_Ausgabe-1,0)
                 aktuelle_Ausgabe-=1
                 aktuelle_Richtung=1
         elif aktuelle_Richtung==1:
