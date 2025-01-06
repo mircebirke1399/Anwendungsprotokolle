@@ -27,7 +27,7 @@ formular = """
            <body>
            <h1>Lauflicht mit dem PiFace</h1>
            <form action="/lauflicht" method="POST">
-             <p><input type="number" name="geschwindigkeit" min="10" max="1000" value="{geschwindigkeit}" /> Geschwindigkeit [s] </p>
+             <p><input type="number" name="geschwindigkeit" min="10" max="1000" value="{geschwindigkeit}" /> Geschwindigkeit [ms] </p>
              <p><input type="submit" value="Absenden" /></p>
            </form>
            </body>
@@ -77,7 +77,7 @@ def lauflicht_steuerung():
                 aktuelle_Ausgabe+=1
                 aktuelle_Richtung=0
         print('laufe mit Geschwindigkeit {}'.format(aktuelle_geschwindigkeit))
-        time.sleep(aktuelle_geschwindigkeit / 100.)
+        time.sleep(aktuelle_geschwindigkeit / 1000.)
 
 if __name__ == '__main__':
     # starte Hintergrund-Thread für das Lauflicht
