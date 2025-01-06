@@ -5,6 +5,9 @@
 # oder
 #     pip3 install flask
 
+import threading
+import time
+
 from flask import Flask, render_template, request, redirect
 import pifacedigitalio as p
 

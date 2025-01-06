@@ -7,11 +7,12 @@
 
 import time
 import threading
+import pifacedigitalio as p
 
 from flask import Flask
 from flask import request
 
-
+p.init()
 # TODO: Bibliothek zur Ansteuerung des PiFace importieren und PiFace initialisieren
 
 # initialisiere Flask server
@@ -26,7 +27,7 @@ formular = """
            <body>
            <h1>Lauflicht mit dem PiFace</h1>
            <form action="/lauflicht" method="POST">
-             <p><input type="number" name="geschwindigkeit" value="{geschwindigkeit}" /> Geschwindigkeit </p>
+             <p><input type="number" name="geschwindigkeit" min="10" value="{geschwindigkeit}" /> Geschwindigkeit </p>
              <p><input type="submit" value="Absenden" /></p>
            </form>
            </body>
@@ -45,9 +46,36 @@ def lauflicht_html():
 
 def lauflicht_steuerung():
     global aktuelle_geschwindigkeit
-    aktuelle_Ausgabe = 0x01
+    aktuelle_Ausgabe = 0
+    aktuelle_Richtung = 0
     while True:
         # TODO: Schreibe aktuellen Wert auf Ausgang
+        if aktuelle_Richtung==0:
+            if aktuelle_Ausgabe==0:
+                p.digital_write(aktuelle_Ausgabe,1)
+                aktuelle_Ausgabe+=1
+            elif aktuelle_Ausgabe > 0 & aktuelle_Ausgabe <7:
+                p.digital_write(aktuelle_Ausgabe-1,0)
+                p.digital_write(aktuelle_Ausgabe,1)
+                aktuelle_Ausgabe+=1
+            elif aktuelle_Ausgabe ==7:
+                p.digital_write(aktuelle_Ausgabe,1)
+                p.digital_write(aktuelle_Ausgabe-1,)
+                aktuelle_Ausgabe-=1
+                aktuelle_Richtung=1
+        elif aktuelle_Richtung==1:
+            if aktuelle_Ausgabe==7:
+                p.digital_write(aktuelle_Ausgabe,1)
+                aktuelle_Ausgabe_=1
+            elif aktuelle_Ausgabe > 0 & aktuelle_Ausgabe <7:
+                p.digital_write(aktuelle_Ausgabe+1,0)
+                p.digital_write(aktuelle_Ausgabe,1)
+                aktuelle_Ausgabe-=1
+            elif aktuelle_Ausgabe==0:
+                p.digital_write(aktuelle_Ausgabe+1,0)
+                p.digital_write(aktuelle_Ausgabe,1)
+                aktuelle_Ausgabe+=1
+                aktuelle_Richtung=1
         print('laufe mit Geschwindigkeit {}'.format(aktuelle_geschwindigkeit))
         time.sleep(aktuelle_geschwindigkeit / 100.)
 
