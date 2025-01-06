@@ -52,8 +52,8 @@ def lauflicht_steuerung():
     try:
         while True:
             # schiebe Ausgabebyte um eine Stelle nach links
-            if aktuelle_Richtung==0:
-                if aktuelle_Ausgabe >= MAX_VALUE:
+            if aktuelle_Richtung == 0:
+                if aktuelle_Ausgabe >= (MAX_VALUE >> 1):
                     aktuelle_Richtung = 1
                 else:
                     aktuelle_Ausgabe = aktuelle_Ausgabe << 1
@@ -65,7 +65,7 @@ def lauflicht_steuerung():
             # schreibe Ausgabebyte auf den Ausgang
             pfd.output_port.value = aktuelle_Ausgabe
             print('laufe... {}'.format(aktuelle_Ausgabe))
-            time.sleep(aktuelle_geschwindigkeit / 100.)
+            time.sleep(aktuelle_geschwindigkeit / 100.0)
     except Exception as e:
         print('Fehler: {}'.format(e))
         pfd.output_port.value = 0
