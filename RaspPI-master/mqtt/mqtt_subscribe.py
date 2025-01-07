@@ -32,7 +32,7 @@ def on_publish(client, userdata, mid, reason_codes, properties):
 def on_subscribe(client, userdata, mid, reason_codes, properties):
     for sub_result in reason_codes:
         if sub_result == 1:
-            print(f'Subscribing to topic ({reason_code}, {mid}).')
+            print(f'Subscribing to topic ({reason_codes}, {mid}).')
         if sub_result >= 128:
             print('Error subscribing to topic!')
 
