@@ -7,7 +7,13 @@
 
 from flask import Flask, render_template, request, redirect
 import pifacedigitalio as p
+from flask_basicauth import BasicAuth
 
+app.config['BASIC_AUTH_USERNAME'] = 'admin'
+app.config['BASIC_AUTH_PASSWORD'] = 'admin2024'
+app.config['BASIC_AUTH_FORCE'] = True
+
+basic_auth = BasicAuth(app)
 p.init()
 # initialisiere Flask-Server
 app = Flask(__name__)
@@ -27,6 +33,7 @@ def index():
     return render_template('index.html',in1=in1)
 
 @app.route('/websocket')
+
 def websocket():      
     return render_template('piface_websocket.html')
 
