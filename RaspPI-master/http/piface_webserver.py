@@ -27,7 +27,7 @@ def index():
     return render_template('index.html',in1=in1)
 
 @app.route('/websocket')
-def index():      
+def websocket():      
     return render_template('piface_websocket.html.html')
 
 
