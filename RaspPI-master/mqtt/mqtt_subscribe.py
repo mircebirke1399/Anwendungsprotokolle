@@ -11,7 +11,7 @@ Notwendige Bibliothek installieren:
 import paho.mqtt.client as mqtt
 
 
-TOPIC = "#"
+TOPIC = "Klassenkasse/Schulden/Lenser"
 
 
 def on_connect(client, userdata, flags, reason_code, properties):
@@ -45,7 +45,7 @@ mqtt_client.on_connect = on_connect
 mqtt_client.on_publish = on_publish
 mqtt_client.on_subscribe = on_subscribe
 # baue Verbindung zum Broker auf
-mqtt_client.connect('192.168.10.52', port=1883, keepalive=120)
+mqtt_client.connect('192.168.24.251', port=1883, keepalive=120)
 
 # abboniere ein Thema beim Broker
 mqtt_client.subscribe(TOPIC, 0)

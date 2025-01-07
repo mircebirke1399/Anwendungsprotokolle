@@ -13,4 +13,4 @@ import paho.mqtt.publish as publish
 
 
 # veröffentliche eine neue Nachricht unter dem angegebenen Thema
-publish.single('test/topic', 'Test-Nachricht', hostname='192.168.10.52')
+publish.single('Klassenkasse/Schulden/Lenser','62,43€', hostname='192.168.24.251')
