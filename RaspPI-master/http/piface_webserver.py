@@ -9,14 +9,16 @@ from flask import Flask, render_template, request, redirect
 import pifacedigitalio as p
 from flask_basicauth import BasicAuth
 
+
+p.init()
+# initialisiere Flask-Server
+app = Flask(__name__)
+
 app.config['BASIC_AUTH_USERNAME'] = 'admin'
 app.config['BASIC_AUTH_PASSWORD'] = 'admin2024'
 app.config['BASIC_AUTH_FORCE'] = True
 
 basic_auth = BasicAuth(app)
-p.init()
-# initialisiere Flask-Server
-app = Flask(__name__)
 
 in1=[0]*4
 # definiere Route für Hauptseite
