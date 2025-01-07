@@ -28,7 +28,7 @@ def index():
 
 @app.route('/websocket')
 def websocket():      
-    return render_template('piface_websocket.html.html')
+    return render_template('piface_websocket.html')
 
 
 listzustand=[0]*8
