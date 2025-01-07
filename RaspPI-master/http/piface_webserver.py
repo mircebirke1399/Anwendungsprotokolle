@@ -5,9 +5,6 @@
 # oder
 #     pip3 install flask
 
-import threading
-import time
-
 from flask import Flask, render_template, request, redirect
 import pifacedigitalio as p
 
@@ -28,6 +25,11 @@ def index():
             in1[i]='Aus' 
       
     return render_template('index.html',in1=in1)
+
+@app.route('/websocket')
+def index():      
+    return render_template('piface_websocket.html.html')
+
 
 listzustand=[0]*8
 
