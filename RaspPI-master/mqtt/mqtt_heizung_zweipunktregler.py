@@ -10,10 +10,18 @@ Notwendige Bibliothek installieren:
 import json
 import pifacedigitalio as p
 import paho.mqtt.client as mqtt
+import sqlite3
+import time
 p.init()
+
+DB_FILENAME = 'messungen.db'
 
 TOPIC = "homeautomation/aussen/temperatur"
 
+conn = sqlite3.connect(DB_FILENAME, check_same_thread=False, detect_types=sqlite3.PARSE_DECLTYPES)
+cursor = conn.cursor()
+cursor.execute("""CREATE TABLE IF NOT EXISTS temp_aussen (id INTEGER PRIMARY KEY AUTOINCREMENT,
+               date DATE, value float)""")
 
 def on_connect(client, userdata, flags, reason_code, properties):
     if reason_code == 0:
@@ -24,10 +32,13 @@ def on_connect(client, userdata, flags, reason_code, properties):
 jsonmessage = 0
 def on_message(client, userdata, message):
     print(f'Incoming message on topic "{message.topic}": {message.payload} (QoS: {message.qos})')
-    jsonmessage=json.loads(message.payload)
-    sensor_value = jsonmessage["sensor_data"][0]["sensor_value"]
-    zweipunktregler(9,sensor_value,2)
-
+    try:
+        jsonmessage=json.loads(message.payload)
+        sensor_value = jsonmessage["sensor_data"][0]["sensor_value"]
+        cursor.execute("""INSERT INTO temp_aussen VALUES (NULL, ?, ?)""", (time.time(), sensor_value))
+        zweipunktregler(9,sensor_value,2)
+    except (json.JSONDecodeError, KeyError, IndexError) as e:
+        print(f"Error processing message payload: {e}")
 
 def on_publish(client, userdata, mid, reason_codes, properties):
     print(f'Publishing message on topic ({mid})')
