@@ -12,6 +12,7 @@ import pifacedigitalio as p
 import paho.mqtt.client as mqtt
 import sqlite3
 import time
+from datetime import datetime
 p.init()
 
 DB_FILENAME = 'messungen.db'
@@ -37,7 +38,10 @@ def on_message(client, userdata, message):
         jsonmessage=json.loads(message.payload)
         sensor_value = jsonmessage["sensor_data"][0]["sensor_value"]
         print(f'Sensor value: {sensor_value}')
-        cursor.execute("""INSERT INTO temp_aussen (date, value) VALUES (?, ?)""", (time.time(), float(sensor_value)))
+        #Timestamp fomratieren
+        timestamp=time.time()
+        date_time= datetime.fromtimestamp(timestamp).strftime('%Y-%m-%d %H:%M:%S')
+        cursor.execute("""INSERT INTO temp_aussen (date, value) VALUES (?, ?)""", (date_time, float(sensor_value)))
         conn.commit()
         print('Data written to database.')
         zweipunktregler(9,sensor_value,2)
