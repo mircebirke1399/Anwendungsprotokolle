@@ -24,8 +24,9 @@ def on_connect(client, userdata, flags, reason_code, properties):
 jsonmessage = 0
 def on_message(client, userdata, message):
     print(f'Incoming message on topic "{message.topic}": {message.payload} (QoS: {message.qos})')
-    jsonmessage=message.payload.json()
-    zweipunktregler(15,3,jsonmessage["sensor_value"])
+    jsonmessage=json.loads(message.payload)
+    sensor_value = jsonmessage["sensor_value"]
+    zweipunktregler(15,3,sensor_value)
 
 
 def on_publish(client, userdata, mid, reason_codes, properties):
