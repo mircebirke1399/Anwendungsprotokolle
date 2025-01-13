@@ -36,6 +36,7 @@ def on_message(client, userdata, message):
         jsonmessage=json.loads(message.payload)
         sensor_value = jsonmessage["sensor_data"][0]["sensor_value"]
         cursor.execute("""INSERT INTO temp_aussen (date, value) VALUES (?, ?)""", (time.time(), float(sensor_value)))
+        conn.commit()
         zweipunktregler(9,sensor_value,2)
     except (json.JSONDecodeError, KeyError, IndexError) as e:
         print(f"Error processing message payload: {e}")
