@@ -21,7 +21,7 @@ TOPIC = "homeautomation/aussen/temperatur"
 conn = sqlite3.connect(DB_FILENAME, check_same_thread=False, detect_types=sqlite3.PARSE_DECLTYPES)
 cursor = conn.cursor()
 cursor.execute("""CREATE TABLE IF NOT EXISTS temp_aussen (id INTEGER PRIMARY KEY AUTOINCREMENT,
-               date DATE, value float)""")
+               date DATE, value REAL)""")
 conn.commit()
 
 def on_connect(client, userdata, flags, reason_code, properties):
