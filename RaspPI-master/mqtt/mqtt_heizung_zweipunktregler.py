@@ -22,6 +22,7 @@ conn = sqlite3.connect(DB_FILENAME, check_same_thread=False, detect_types=sqlite
 cursor = conn.cursor()
 cursor.execute("""CREATE TABLE IF NOT EXISTS temp_aussen (id INTEGER PRIMARY KEY AUTOINCREMENT,
                date DATE, value float)""")
+conn.commit()
 
 def on_connect(client, userdata, flags, reason_code, properties):
     if reason_code == 0:
@@ -35,11 +36,15 @@ def on_message(client, userdata, message):
     try:
         jsonmessage=json.loads(message.payload)
         sensor_value = jsonmessage["sensor_data"][0]["sensor_value"]
+        print(f'Sensor value: {sensor_value}')
         cursor.execute("""INSERT INTO temp_aussen (date, value) VALUES (?, ?)""", (time.time(), float(sensor_value)))
         conn.commit()
+        print('Data written to database.')
         zweipunktregler(9,sensor_value,2)
     except (json.JSONDecodeError, KeyError, IndexError) as e:
         print(f"Error processing message payload: {e}")
+    except sqlite3.Error as e:
+        print(f"Error writing to database: {e}")
 
 def on_publish(client, userdata, mid, reason_codes, properties):
     print(f'Publishing message on topic ({mid})')
