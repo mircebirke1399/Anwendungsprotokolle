@@ -24,7 +24,7 @@ def on_connect(client, userdata, flags, reason_code, properties):
 jsonmessage = 0
 def on_message(client, userdata, message):
     print(f'Incoming message on topic "{message.topic}": {message.payload} (QoS: {message.qos})')
-    jsonmessage=json.parse(message.payload)
+    jsonmessage=message.payload.json()
     zweipunktregler(15,3,jsonmessage["sensor_value"])
 
 
