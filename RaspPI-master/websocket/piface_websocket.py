@@ -5,7 +5,6 @@ import sqlite3
 import json
 import plotly.graph_objs as go
 import plotly.io as pio
-from datetime import datetime
 
 from autobahn.asyncio.websocket import WebSocketServerProtocol, WebSocketServerFactory
 
