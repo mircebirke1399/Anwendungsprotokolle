@@ -58,11 +58,11 @@ class MyServerProtocol(WebSocketServerProtocol):
             self.verbindungen.remove(self)
 
 def start_server():
-    factory = WebSocketServerFactory("ws://127.0.0.1:9000")
+    factory = WebSocketServerFactory("ws://192.168.24.100:9000")
     factory.protocol = MyServerProtocol
 
     loop = asyncio.get_event_loop()
-    coro = loop.create_server(factory, '127.0.0.1', 9000)
+    coro = loop.create_server(factory, '192.168.24.100', 9000)
     server = loop.run_until_complete(coro)
 
     try:
