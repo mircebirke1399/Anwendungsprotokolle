@@ -35,7 +35,7 @@ class MyServerProtocol(WebSocketServerProtocol):
 
     def send_plot(self):
         # Query data from the database
-        cursor.execute("SELECT date, temp FROM temp_aussen")
+        cursor.execute("SELECT date, value FROM temp_aussen")
         rows = cursor.fetchall()
         
         # Extract data for plotting
