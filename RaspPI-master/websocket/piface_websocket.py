@@ -35,11 +35,11 @@ class MyServerProtocol(WebSocketServerProtocol):
 
     def send_plot(self):
         # Query data from the database
-        cursor.execute("SELECT date, value FROM temp_aussen")
+        cursor.execute("SELECT date, temp FROM temp_aussen")
         rows = cursor.fetchall()
         
         # Extract data for plotting
-        dates = [datetime.fromtimestamp(float(row[0])).strftime('%Y-%m-%d %H:%M:%S') if isinstance(row[0], (int, float)) else row[0] for row in rows]
+        dates = [row[0] for row in rows]
         values = [row[1] for row in rows]
         
         # Create a plot using Plotly
