@@ -5,6 +5,7 @@ import sqlite3
 import json
 import plotly.graph_objs as go
 import plotly.io as pio
+from datetime import datetime
 
 from autobahn.asyncio.websocket import WebSocketServerProtocol, WebSocketServerFactory
 
@@ -38,7 +39,7 @@ class MyServerProtocol(WebSocketServerProtocol):
         rows = cursor.fetchall()
         
         # Extract data for plotting
-        dates = [row[0] for row in rows]
+        dates = [datetime.fromtimestamp(float(row[0])).strftime('%Y-%m-%d %H:%M:%S') if isinstance(row[0], (int, float)) else row[0] for row in rows]
         values = [row[1] for row in rows]
         
         # Create a plot using Plotly
