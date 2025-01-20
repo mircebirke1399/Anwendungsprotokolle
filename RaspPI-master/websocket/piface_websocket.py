@@ -18,7 +18,11 @@ async def get_data(websocket, path):
         
         await asyncio.sleep(1)  # Pause zwischen Updates
 
-start_server = websockets.server(get_data, "0.0.0.0", 9000)
+async def main():
+    # WebSocket-Server starten
+    async with websockets.serve(get_data, "0.0.0.0", 9000):
+        print("WebSocket-Server läuft auf Port 9000...")
+        await asyncio.Future()  # Blockiert, damit der Server weiterläuft
 
-asyncio.get_event_loop().run_until_complete(start_server)
-asyncio.get_event_loop().run_forever()
+if __name__ == "__main__":
+    asyncio.run(main())
