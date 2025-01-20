@@ -43,7 +43,8 @@ async def main():
     loop = asyncio.get_event_loop()
     server = loop.create_server(factory, '0.0.0.0', 9000)
     print("WebSocket-Server läuft auf Port 9000...")
-    await server.serve_forever()
+    server = await loop.create_server(factory, '0.0.0.0', 9000)
+    await server.wait_closed()
 
 if __name__ == "__main__":
     asyncio.run(main())
