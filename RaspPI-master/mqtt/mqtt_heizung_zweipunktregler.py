@@ -22,7 +22,7 @@ TOPIC = "homeautomation/aussen/temperatur"
 conn = sqlite3.connect(DB_FILENAME, check_same_thread=False, detect_types=sqlite3.PARSE_DECLTYPES)
 cursor = conn.cursor()
 cursor.execute("""CREATE TABLE IF NOT EXISTS temp_aussen (id INTEGER PRIMARY KEY AUTOINCREMENT,
-               date DATE, value REAL)""")
+               date REAL, value REAL)""")
 conn.commit()
 
 def on_connect(client, userdata, flags, reason_code, properties):
@@ -40,8 +40,7 @@ def on_message(client, userdata, message):
         print(f'Sensor value: {sensor_value}')
         #Timestamp fomratieren
         timestamp=time.time()
-        date_time= datetime.fromtimestamp(timestamp).strftime('%Y-%m-%d %H:%M:%S')
-        cursor.execute("""INSERT INTO temp_aussen (date, value) VALUES (?, ?)""", (date_time, float(sensor_value)))
+        cursor.execute("""INSERT INTO temp_aussen (date, value) VALUES (?, ?)""", (timestamp, float(sensor_value)))
         conn.commit()
         print('Data written to database.')
         zweipunktregler(9,sensor_value,2)

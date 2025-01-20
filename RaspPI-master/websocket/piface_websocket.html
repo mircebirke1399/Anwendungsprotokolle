@@ -8,34 +8,42 @@
 </head>
 <body>
     <h1>Temperature Over Time</h1>
-    <div id="plot"></div>
+    <div id="graph"></div>
+
     <script>
-        // Connect to WebSocket server
-        const socket = new WebSocket('ws://192.168.24.100:9000');
+        const socket = new WebSocket("ws://192.168.24.100:9000");
+        const graphDiv = document.getElementById('graph');
 
-        // Connection opened
-        socket.addEventListener('open', function (event) {
-            console.log('Connected to WebSocket server');
-            // Request plot data
-            socket.send('get_plot');
-        });
+        // Initiale Datenstruktur für Plotly
+        const trace = {
+            x: [], // Zeitstempel
+            y: [], // Werte
+            type: 'scatter'
+        };
+        const data = [trace];
+        Plotly.newPlot(graphDiv, data);
 
-        // Listen for messages
-        socket.addEventListener('message', function (event) {
-            console.log('Message from server', event.data);
-            // Display the plot
-            document.getElementById('plot').innerHTML = event.data;
-        });
+        // WebSocket-Nachricht empfangen und Daten aktualisieren
+        socket.onmessage = function(event) {
+            const parsedData = JSON.parse(event.data);
+            const date = new Date(parsedData.date * 1000); // Unix-Timestamp in JS-Zeit
+            const value = parsedData.value;
 
-        // Connection closed
-        socket.addEventListener('close', function (event) {
-            console.log('WebSocket connection closed');
-        });
+            // Neue Daten hinzufügen
+            trace.x.push(date);
+            trace.y.push(value);
 
-        // Handle errors
-        socket.addEventListener('error', function (event) {
-            console.error('WebSocket error:', event);
-        });
+            // Graph aktualisieren
+            Plotly.update(graphDiv, {x: [trace.x], y: [trace.y]});
+        };
+
+        // WebSocket-Verbindungsstatus
+        socket.onopen = function() {
+            console.log("WebSocket connected");
+        };
+        socket.onclose = function() {
+            console.log("WebSocket disconnected");
+        };
     </script>
 </body>
 </html>
