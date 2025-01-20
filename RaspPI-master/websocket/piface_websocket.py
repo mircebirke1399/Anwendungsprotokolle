@@ -18,7 +18,7 @@ async def get_data(websocket, path):
         
         await asyncio.sleep(1)  # Pause zwischen Updates
 
-start_server = websockets.serve(get_data, "0.0.0.0", 9000)
+start_server = websockets.server(get_data, "0.0.0.0", 9000)
 
 asyncio.get_event_loop().run_until_complete(start_server)
 asyncio.get_event_loop().run_forever()
