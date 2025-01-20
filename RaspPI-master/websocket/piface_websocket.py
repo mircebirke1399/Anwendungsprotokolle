@@ -1,11 +1,26 @@
 import asyncio
-import websockets
+from autobahn.asyncio.websocket import WebSocketServerProtocol, WebSocketServerFactory
 import json
-import sqlite3  # Beispiel für eine Datenbankverbindung
+import sqlite3
 
-async def get_data(websocket, path):  # path wird erwartet
-    while True:
-        try:
+class MyServerProtocol(WebSocketServerProtocol):
+    async def onConnect(self, request):
+        print(f"Neue Verbindung: {request.peer}")
+
+    async def onOpen(self):
+        print("Verbindung geöffnet")
+        await self.send_data()
+
+    async def onMessage(self, payload, isBinary):
+        # Diese Methode wird aufgerufen, wenn eine Nachricht empfangen wird
+        print(f"Nachricht erhalten: {payload.decode('utf8')}")
+    
+    async def onClose(self, wasClean, code, reason):
+        print(f"Verbindung geschlossen: {reason}")
+
+    async def send_data(self):
+        while True:
+            # Datenbankabfrage
             conn = sqlite3.connect("messungen.db")
             cursor = conn.cursor()
             cursor.execute("SELECT date, value FROM temp_aussen ORDER BY date DESC LIMIT 1")
@@ -14,18 +29,21 @@ async def get_data(websocket, path):  # path wird erwartet
 
             if row:
                 data = {"date": row[0], "value": row[1]}
-                await websocket.send(json.dumps(data))
+                print(f"Sende Daten: {data}")
+                self.sendMessage(json.dumps(data).encode('utf8'))  # Sende die Daten als JSON
+            else:
+                print("Keine Daten in der Tabelle gefunden.")
 
-        except Exception as e:
-            print(f"Fehler: {e}")
+            await asyncio.sleep(1)  # Warte 1 Sekunde bevor die nächsten Daten gesendet werden
 
-        await asyncio.sleep(1)  # 1 Sekunde Pause
-        
+# Server starten
 async def main():
-    # WebSocket-Server starten
-    async with websockets.serve(get_data, "0.0.0.0", 9000):
-        print("WebSocket-Server läuft auf Port 9000...")
-        await asyncio.Future()  # Blockiert, damit der Server weiterläuft
+    factory = WebSocketServerFactory("ws://0.0.0.0:9000")
+    factory.protocol = MyServerProtocol  # Definiere das Verhalten für die Verbindungen
+    loop = asyncio.get_event_loop()
+    server = loop.create_server(factory, '0.0.0.0', 9000)
+    print("WebSocket-Server läuft auf Port 9000...")
+    await server.serve_forever()
 
 if __name__ == "__main__":
     asyncio.run(main())
