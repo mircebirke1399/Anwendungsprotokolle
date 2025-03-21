@@ -1,3 +1,3 @@
 # Anwendungprotokolle Übung
-FSE31 Techniker VIT Chritstian Wichmann
+FSE31 Techniker VIT
 
